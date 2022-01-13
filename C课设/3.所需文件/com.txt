@@ -1,0 +1,37 @@
+newsId,user,content
+1,admin,QAQ
+1,ljy,i want sadihasd
+1,ty, NEED yOU
+2,zeroishine,Im zeroiSHine
+2,admin,#define asdh aiodu
+3,admin,$include <stdio.h>
+3,jst,GoAhead<stdlIHb>
+4,lizr1103,RIsad
+4,yqy,COnshaishjdfhakasdfjfsdcvsghjkasdf
+5,ty,ASDIU*(!#@&$()*YRE!(Y@(*$
+5,zzy,(*!@#HED(!&*$TY)NE!@)Y*$
+6,ljy,(*!@YDF*(JMD!@#(J*$Y#*(%CYN#*(
+6,admin,$include<string.h>
+12,admin,$include<bug.h>
+15,lizr1103,comment11111111
+11,lizr1103,i dont know what to do
+4,lizr1103,IANDYOU ArE aDmiN
+9,lizr1103,JSt is a BeAuTy;
+10,lizr1103,Nobody love me, im so sad;
+12,lizr1103,Im so EMO !!!!!!!!!!!!
+19,lizr1103,IMMMMM EEEEEEEEMMMMMMMOOOOOOOOOO
+2,yqy,STARK InDuStRy
+8,ty,QIANGT ASUDFsdfgh
+1,lizr1103,const int abc
+1,admin,ASDO
+7,zeroishine,asuASDUJIQWDBHNASD
+7,zzy,ADS*(!@$H!%@*()%TYH@#_!@~%YR
+8,yqy,asf987YFQA)*(GF!$@
+9,yqy,COAS NDFUASHDGAS
+13,ty,NObdyusasd ios  EEEEEmmmoooOOO
+14,ty,EEEEEMMEMEMEMOPDOJMASNDOAHSDF
+15,yqy,AUIODFA IADFBV IUDFYGVFRDIUJR\
+16,jst,IAMDUIASDHDIF
+17,lizr1103,CONST INT SHSITTHNAFIKS
+4,admin,adfgafsdikafd
+24,zzy,Woadasds

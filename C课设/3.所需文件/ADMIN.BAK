@@ -1,0 +1,377 @@
+#include "admin.h"
+#include "user.h"
+
+// admin subsystem
+void AdminSubSystem(AccountNode* accounts, NewsNode* news, CommentNode* comments, Account** account) {
+	int isExit = 0;
+	while (!isExit) {
+clrscr();
+		// menu
+		printf("***GDUT News System***\n");
+		printf("1.NewsClassification\n");
+		printf("2.news management\n");
+		printf("3.user management\n");
+		printf("4.View news\n");
+		printf("5.Search news\n");
+		printf("6.statistical data\n");
+		printf("0.logout\n");
+
+		int choice = InputInteger("input your choice: ", 0, 6);
+		// deal user input
+		switch (choice) {
+			case 0: {
+				// exit
+				isExit = 1;
+				*account = NULL;
+				continue;
+				break;
+			}
+			case 1: {
+
+				NewsClassification(news, comments);
+				break;
+			}
+			case 2: {
+
+				NewsManage(news, comments, *account);
+				break;
+			}
+			case 3: {
+			
+				UserManage(accounts);
+				break;
+			}
+			case 4: {
+				//view news
+				NewsNode* sNews = CopyNews(news, 0, 0, NULL, NULL,
+					NULL, NULL, NULL, NULL, NULL, NULL);
+				ViewNews(sNews, comments, *account);
+				// free 
+				NewsNode* p2 = sNews;
+				while (p2) {
+					sNews = sNews->next;
+					free(p2->news->title);
+					free(p2->news->content);
+					free(p2->news);
+					free(p2);
+					p2 = sNews;
+				}
+				break;
+			}
+			case 5: {
+				
+				SearchNews(news, comments, *account);
+				break;
+			}
+			case 6: {
+				
+				NewsStats(news, accounts);
+				break;
+			}
+		}
+	}
+}
+
+
+void NewsClassification(NewsNode* news, CommentNode* comments) {
+	int isExit = 0;
+	while (!isExit) {
+clrscr();
+		printf("***NewsClassification***\n");
+		printf("1.notice\n");
+		printf("2.announcement\n");
+		printf("3.news in brief\n");
+		printf("0.return\n");
+
+		int choice = InputInteger("input your choice: ", 0, 3);
+		char type[10];
+		switch (choice) {
+			case 0: {
+				isExit = 1;
+				continue;
+				break;
+			}
+			case 1: {
+				strcpy(type, "notice");
+				break;
+			}
+			case 2: {
+				strcpy(type, "announcement");
+				break;
+			}
+			case 3: {
+				strcpy(type, "brief");
+				break;
+			}
+		}
+
+		// find this news type
+		NewsNode* sNews = CopyNews(news, 0, 0, type, NULL,
+			NULL, NULL, NULL, NULL, NULL, NULL);
+		ViewNews(sNews, comments, NULL);
+		// free
+		NewsNode* p = sNews;
+		while (p) {
+			sNews = sNews->next;
+			free(p->news->title);
+			free(p->news->content);
+			free(p->news);
+			free(p);
+			p = sNews;
+		}
+	}
+}
+
+
+void UserManage(AccountNode* accounts) {
+	int isExit = 0;
+	while (!isExit) {
+clrscr();
+		printf("***UserManagement***\n");
+		printf("1.add user\n");
+		printf("2.change user password\n");
+		printf("0.return\n");
+
+		// ????
+		int choice = InputInteger("input your choice: ", 0, 2);
+		switch (choice) {
+			case 0: {
+				isExit = 1;
+				continue;
+				break;
+			}
+			case 1: {
+				// add
+				char* user = InputString("Username: ");
+				char* psw = InputString("Password: ");
+				// check if have
+				AccountNode* p = accounts;
+				AccountNode* pre = NULL;
+				while (p) {
+					if (strcmp(p->account->user, user) == 0) {
+						break;
+					}
+					pre = p;
+					p = p->next;
+				}
+				if (p == NULL) {
+					// add new user
+					Account* account = (Account*)calloc(1, sizeof(Account));
+					strcpy(account->user, user);
+					strcpy(account->psw, psw);
+					strcpy(account->type, "user");
+					AccountNode* accountNode = (AccountNode*)calloc(1, sizeof(AccountNode));
+					accountNode->account = account;
+					accountNode->next = NULL;
+					pre->next = accountNode;
+					printf("add success\n");
+				}
+				else {
+					printf("Username already include \n");
+				}
+				WriteDataFromFile(accounts, NULL, NULL);
+				WaitForEnterKey();
+				break;
+			}
+			case 2: {
+				// change user password
+				char* user = InputString("Username want to change password: ");
+				char* psw = InputString("new password: ");
+				// check if have user
+				AccountNode* p = accounts;
+				while (p) {
+					if (strcmp(p->account->user, user) == 0) {
+						break;
+					}
+					p = p->next;
+				}
+				if (p) {
+					//change
+					strcpy(p->account->psw, psw);
+					printf("change success\n");
+				}
+				else {
+					printf("User no found\n");
+				}
+				WriteDataFromFile(accounts, NULL, NULL);
+				WaitForEnterKey();
+				break;
+			}
+		}
+	}
+}
+
+
+void NewsManage(NewsNode* news, CommentNode* comments, Account* account) {
+	int isExit = 0;
+	while (!isExit) {
+clrscr();
+		printf("***NewsManagement***\n");
+		printf("1.Add news\n");
+		printf("2.Delete news\n");
+		printf("3.VerifyNews\n");
+		printf("4.ModifyNews\n");
+		printf("0.return\n");
+
+		// input
+		int choice = InputInteger("input your choice: ", 0, 4);
+		switch (choice) {
+			case 0: {
+				isExit = 1;
+				continue;
+				break;
+			}
+			case 1: {
+				AddNews(news, account);
+				break;
+			}
+			case 2: {
+				DeleteNews(news);
+				break;
+			}
+			case 3: {
+				VerifyNews(news);
+				break;
+			}
+			case 4: {
+				ModifyNews(news);
+				break;
+			}
+		}
+	}
+}
+
+
+void NewsStats(NewsNode* news, AccountNode* accounts) {
+clrscr();
+	printf("***NewsStats***\n");
+	// input date
+	struct Date startDate, endDate;
+	printf("start date:\n");
+	startDate.year = InputInteger("year: ", 2000, 2030);
+	startDate.month = InputInteger("month: ", 1, 12);
+	startDate.day = InputInteger("day: ", 1, 31);
+	printf("end date:\n");
+	endDate.year = InputInteger("year: ", 2000, 2030);
+	endDate.month = InputInteger("month: ", 1, 12);
+	endDate.day = InputInteger("day: ", 1, 31);
+
+	// statistics
+	AccountNode* q = accounts;
+	printf("\n%-20s%-20s\n", "Username", "Number of releases");
+	while (q) {
+		printf("%-20s", q->account->user);
+		int num = 0;
+		NewsNode* p = news;
+		while (p) {
+			if (strcmp(p->news->publisher, q->account->user) == 0 
+				&& !p->news->deleted && CompareDate(p->news->date, startDate) >= 0 
+				&& CompareDate(p->news->date, endDate) <= 0) {
+					num++;
+			}
+			p = p->next;
+		}
+
+		printf("%-20d\n", num);
+		q = q->next;
+	}
+	WriteDataFromFile(NULL, news, NULL);
+	WaitForEnterKey();
+}
+
+void DeleteNews(NewsNode* news) {
+clrscr();
+	printf("***delete news***\n");
+	int id = InputInteger("input news id: ", 1, INT_MAX);
+	NewsNode* p = news;
+	int isSuccess = 0;
+	while (p) {
+		// find news id
+		if (p->news->id == id && !p->news->deleted) {
+			p->news->deleted = 1; // mark it to delete
+			isSuccess = 1;
+			break;
+		}
+		p = p->next;
+	}
+	if (isSuccess) {
+		printf("delete success\n");
+	}
+	else {
+		printf("news no found\n");
+	}
+	WriteDataFromFile(NULL, news, NULL);
+	WaitForEnterKey();
+}
+
+// verify
+void VerifyNews(NewsNode* news) {
+clrscr();
+	printf("***VerifyNews***\n");
+	int id = InputInteger("input news id: ", 1, INT_MAX);
+	NewsNode* p = news;
+	int isSuccess = 0;
+	while (p) {
+		// find news id
+		if (p->news->id == id && !p->news->deleted && !p->news->verified) {
+			p->news->verified = 1; // mark
+			isSuccess = 1;
+			break;
+		}
+		p = p->next;
+	}
+	if (isSuccess) {
+		printf("verify success\n");
+	}
+	else {
+		printf("News no found or have been verified\n");
+	}
+	WriteDataFromFile(NULL, news, NULL);
+	WaitForEnterKey();
+}
+
+
+void ModifyNews(NewsNode* news) {
+clrscr();
+	printf("***ModifyNews***\n");
+	int id = InputInteger("input news id: ", 1, INT_MAX);
+	NewsNode* p = news;
+	while (p) {
+		// find news id
+		if (p->news->id == id && !p->news->deleted) {
+			break;
+		}
+		p = p->next;
+	}
+	if (p) {
+		// ???
+		printf("\nid: %d\n", p->news->id);
+		printf("topic: %s\n", p->news->title);
+		printf("type: %s\n", p->news->type);
+		printf("publisher: %s\n", p->news->publisher);
+		printf("date: %04d-%02d-%02d\n", p->news->date.year,
+			p->news->date.month, p->news->date.day);
+		printf("content:\n%s\n\n", p->news->content);
+
+		char* s1 = InputString("new topic(press enter if skip modify): \n");
+		if (strlen(s1) > 0) {
+			free(p->news->title);
+			p->news->title = (char*)calloc(strlen(s1) + 1, sizeof(char));
+			strcpy(p->news->title, s1);
+		}
+		free(s1);
+		s1 = InputString("new content (press enter if skip modify): \n");
+		if (strlen(s1) > 0) {
+			free(p->news->content);
+			p->news->content = (char*)calloc(strlen(s1) + 1, sizeof(char));
+			strcpy(p->news->content, s1);
+		}
+		free(s1);
+		printf("modify success\n");
+	}
+	else {
+		printf("News no found\n");
+	}
+	WriteDataFromFile(NULL, news, NULL);
+	WaitForEnterKey();
+}

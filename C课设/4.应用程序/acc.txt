@@ -1,0 +1,9 @@
+user,psw,type
+admin,admin,admin
+lizr1103,lizr1103,admin
+jst,jst20021212,user
+zeroishine,zeroishine,user
+ljy,ljy123,user
+zzy,zzy123,user
+ty,ty123,user
+yqy,yqy123,user

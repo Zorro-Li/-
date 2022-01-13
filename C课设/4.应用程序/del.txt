@@ -1,0 +1,3 @@
+id,title,publisher,type,date,verified,content
+3,Scientists,lizr1103,notice,2020-01-01,Y,CDC recommends all people ages 5+ years get vaccinated against #COVID19. More than half of parents & guardians of kids ages 5-17 years report that their children have been vaccinated or will definitely get vaccinated. Get your kids vaccinated today. More: https://bit.ly/CDTvaxconf.
+25,CONAS,yqy,announce,2022-01-07,Y,DASUHDASODAH
